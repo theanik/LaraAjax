@@ -29,3 +29,8 @@ Route::get('/customer', 'CustomerController@index')->name('customer.index');
 Route::post('/customer/store', 'CustomerController@store')->name('customer.store');
 Route::get('/customer/getallcustomer', 'CustomerController@getAllCustomer')->name('customer.getallcustomer');
 // Route::resource('/customer', 'CustomerController');
+
+
+// Product Route
+Route::resource('/product','ProductController');
+Route::get('/product/fd','ProductController@fetch_data');
