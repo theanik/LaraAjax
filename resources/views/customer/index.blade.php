@@ -87,7 +87,8 @@ function openModal(){
      type : 'GET',
      url : '/customer/getallcustomer',
      success : res => {
-        let customers = res.customer;
+        let customers = res.customer.data;
+        // console.log(customers)
         let html = ''
         customers.forEach(element => {
           

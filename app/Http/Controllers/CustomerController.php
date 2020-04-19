@@ -19,7 +19,7 @@ class CustomerController extends Controller
 
     public function getAllCustomer()
     {
-        $customer = Customer::all();
+        $customer = Customer::paginate(5);
         if($customer){
             return response()->json([
                 'customer' => $customer,
