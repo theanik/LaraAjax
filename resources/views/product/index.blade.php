@@ -13,15 +13,25 @@
                 </div>
 
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <select class="form-control" id="filterProructByType">
+                                @foreach ($product_types as $type)
+                                    <option value="{{$type->product_types}}">{{$type->product_types}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    
                   <div id="createTaskMessage"></div>
 
-                  <table class="table table-hover" id="customerTable">
+                  <table class="table table-hover" id="productTable">
                     <thead>
                       <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Phone</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Type</th>
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
@@ -83,10 +93,14 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
 
+// Modal Open
 function openModal(){
     $('#productModal').modal('show')
     $('#productModalLabel').html('Product Modal')
 }
+
+
+// Ajax setup
 $(function () {
   
   $.ajaxSetup({
@@ -95,29 +109,28 @@ $(function () {
     }
   });
 
-//   $('#submit').click( () => {
-//   console.log('cki')
 })
+
+
 
 $(document).ready(function(){
 
-
-
- 
 function fetch_data(page){
     $.ajax({
         type : 'GET',
         url : '/product?page='+page,
         success : function (products){
-            $('#customerTable tbody').html('')
+            $('#productTable tbody').html('')
             console.log(products)
-            $('#customerTable tbody').html(products)
+            $('#productTable tbody').html(products)
         },
         error : error=>{
             console.log(error)
         }
     })
 }
+
+
 
 
 $(document).on('click', '.pagination a',function(event)
@@ -138,6 +151,8 @@ $(document).on('click', '.pagination a',function(event)
     
 });
 
+// insert data
+
 
 $('#productForm').submit(function (event) {
   event.preventDefault()
@@ -156,7 +171,7 @@ $('#productForm').submit(function (event) {
     product_types : $(product_types).val()
   }
 
-  console.log(formData)
+//   console.log(formData)
 
   $.ajax({
     type : "POST",
@@ -189,6 +204,28 @@ $('#productForm').submit(function (event) {
   })
 
 });
+
+
+function fetch_data_all(page,filter){
+    console.log(filter)
+    $.ajax({
+        url : '/product/fetch_data_all/'+filter,
+        success : function (products){
+            $('#productTable tbody').html('')
+            console.log(products)
+            $('#productTable tbody').html(products)
+        }
+    })
+}
+
+$('#filterProructByType').on('change',function(){
+    // console.log(this.value)
+   var page = $('#hidden_page').val()
+   var filter = this.value
+    
+    fetch_data_all(page,filter)
+
+})
 
 
 

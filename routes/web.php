@@ -33,4 +33,4 @@ Route::get('/customer/getallcustomer', 'CustomerController@getAllCustomer')->nam
 
 // Product Route
 Route::resource('/product','ProductController');
-Route::get('/product/fd','ProductController@fetch_data');
+Route::get('/product/fetch_data_all/{filter}','ProductController@fetch_data_all')->name('product.fetch_data_all');

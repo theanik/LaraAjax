@@ -3,6 +3,7 @@
     <td>{{ $product->product_name }}</td>
     <td>{{ $product->price }}</td>
     <td>{{ $product->quantity }}</td>
+    <td>{{ $product->product_types }}</td>
     <td><button>Edit</button> <button>delete</button></td>
 </tr>
     

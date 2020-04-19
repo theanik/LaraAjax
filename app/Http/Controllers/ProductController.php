@@ -16,7 +16,8 @@ class ProductController extends Controller
     public function index(Request $req)
     {
         $products = DB::table('products')->latest()->paginate(5);
-
+        $product_types = DB::table('products')->select('product_types')->distinct()->get();
+        // return $product_types;
         
         
         if($req->ajax()){;
@@ -24,14 +25,16 @@ class ProductController extends Controller
             return view('product.tbl_data',compact('products'))->render();
         }
 
-        return view('product.index',compact('products'));
+        return view('product.index',compact('products','product_types'));
 
     }
 
-    public function feach_data(Request $req)
+    public function fetch_data_all(Request $req,$filter)
     {
         if($req->ajax()){
-            $products = DB::table('products')->latest()->paginate(5);
+            $products = DB::table('products')
+                        ->where('product_types','LIKE','%'.$filter.'%')
+                        ->paginate(5);
 
             return view('product.tbl_data',compact('products'))->render();
         }
